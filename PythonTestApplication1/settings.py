@@ -1,13 +1,13 @@
 from random import randint, seed
 
 # start DNA
-seed(17) #4 #69 #555
+seed(31) #30 #9 #555
 dna_start = [[randint(0,30) for i in range(4)] for j in range(16)] 
 
 # start data for solve
 #rows = 60
 #columns = 60
-rows = columns = 50
+rows = columns = 80
 world = [[(0) for i in range(rows*2)] for j in range(columns*2)] # start world
 world[rows][columns] = 2
 tree = [[0, rows, columns]]

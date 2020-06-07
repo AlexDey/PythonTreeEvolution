@@ -27,8 +27,8 @@ def cornToTree():
 
 # start data for draw window with turtle
 #scale = .4
-constant_size = 24
-scale = constant_size / columns
+constant_size = 24 # = rows * scale
+scale = constant_size / rows
 rect_size = 21 * scale
 width = rect_size*rows*2
 height = rect_size*columns*2

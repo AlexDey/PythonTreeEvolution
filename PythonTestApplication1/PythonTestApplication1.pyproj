@@ -21,6 +21,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="drawPygame.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="solve.py">
       <SubType>Code</SubType>
     </Compile>

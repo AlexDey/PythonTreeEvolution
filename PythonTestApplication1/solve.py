@@ -1,26 +1,26 @@
-# залить изменения на gitlab
-# сделать систему отрисовки через pygame
+# добавить землю, 
+# сделать мир замкнутым по горизонтали
 
-import drawTurtle as tdraw
-from drawTurtle import corn_turtle
+#import drawTurtle as tdraw
+import drawPygame as tdraw
 from settings import *
 
 import time
-import turtle
+from pygame import event, QUIT
+#import turtle
 
 # tree
 #tree_turtle = []
 tdraw.update()
-   
-#global corn_turtle
+
 k=0
 while (k < rows-1):
     print(k)
     k += 1
-    # redraw window with turtle
+    # redraw window
     tdraw.update()
-    if (k < rows/2):
-        time.sleep(0.1)
+    if (k < rows):
+        time.sleep(0.05)
     tdraw.cornToTree()
     # update corn
     if (k != 1):
@@ -34,7 +34,7 @@ while (k < rows-1):
                 newCorn.append([activeDNA[0], cellCorn[1], cellCorn[2]-1])
                 tree.append([activeDNA[0], cellCorn[1], cellCorn[2]-1])
                 world[cellCorn[1]][cellCorn[2]-1] = 2
-
+                #print("right")
                 tdraw.addCorn(cellCorn[1],cellCorn[2]-1)
 
             # up
@@ -42,7 +42,7 @@ while (k < rows-1):
                 newCorn.append([activeDNA[1], cellCorn[1]-1, cellCorn[2]])
                 tree.append([activeDNA[1], cellCorn[1]-1, cellCorn[2]])
                 world[cellCorn[1]-1][cellCorn[2]] = 2
-
+                #print("up")
                 tdraw.addCorn(cellCorn[1]-1,cellCorn[2])
 
             # left
@@ -50,7 +50,7 @@ while (k < rows-1):
                 newCorn.append([activeDNA[2], cellCorn[1], cellCorn[2]+1])
                 tree.append([activeDNA[3], cellCorn[1], cellCorn[2]+1])
                 world[cellCorn[1]][cellCorn[2]+1] = 2
-
+                #print("left")
                 tdraw.addCorn(cellCorn[1],cellCorn[2]+1)
 
             # down
@@ -58,7 +58,15 @@ while (k < rows-1):
                 newCorn.append([activeDNA[3], cellCorn[1]+1, cellCorn[2]])
                 tree.append([activeDNA[3], cellCorn[1]+1, cellCorn[2]])
                 world[cellCorn[1]+1][cellCorn[2]] = 2
-
+                #print("down")
                 tdraw.addCorn(cellCorn[1]+1,cellCorn[2])
 
             world[cellCorn[1]][cellCorn[2]] = 1
+tdraw.update()
+# cycle for keep window after solve
+flag = True
+while flag:
+    time.sleep(0.1)
+    for ev in event.get():
+        if ev.type == QUIT:
+            flag = False
