@@ -1,4 +1,4 @@
-# добавить землю, 
+# добавить несимметричность мира по горизонтали ивертикали
 # сделать мир замкнутым по горизонтали
 
 #import drawTurtle as tdraw
@@ -20,7 +20,7 @@ while (k < rows-1):
     # redraw window
     tdraw.update()
     if (k < rows):
-        time.sleep(0.05)
+        time.sleep(0.05) #0.05)
     tdraw.cornToTree()
     # update corn
     if (k != 1):

@@ -1,24 +1,18 @@
 from random import randint, seed
 
 # start DNA
-seed(31) #30 #9 #555
+seed(45) #30 #9 #34 #38
 dna_start = [[randint(0,30) for i in range(4)] for j in range(16)] 
 
 # start data for solve
+rows = columns = 40
 #rows = 60
-#columns = 60
-rows = columns = 80
+#columns = 30
+row_start = rows*2-2  # *7//4
+column_start = columns
 world = [[(0) for i in range(rows*2)] for j in range(columns*2)] # start world
-world[rows][columns] = 2
-tree = [[0, rows, columns]]
-corn = [[0, rows, columns]]
+world[row_start][column_start] = 2 # start corn
+world[-1][:] = [3]*columns*2 # ground
+corn = [[0, row_start, column_start]]
+tree = corn.copy() # copy;  # tree = corn - just reference
 newCorn = []
-
-# start data for draw window with turtle
-#scale = .4
-#rect_size = 21 * scale
-#width = rect_size*rows*2
-#height = rect_size*columns*2
-
-# turtle temp
-#corn_turtle = []

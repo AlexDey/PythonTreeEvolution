@@ -4,7 +4,7 @@
 import pygame
 import os
 
-from settings import rows, columns
+from settings import rows, columns, row_start, column_start
 
 def addCorn(row, column):
     x_pos = column*rect_size
@@ -43,14 +43,21 @@ win = pygame.display.set_mode((int(width), int(height)))
 
 # first corn
 corn_turtle = []
-x_pos_start = columns*rect_size
-y_pos_start = rows*rect_size
+x_pos_start = column_start*rect_size
+y_pos_start = row_start*rect_size
 color_corn = (255,255,255)
 corn_start = pygame.draw.rect(win, color_corn, (x_pos_start, y_pos_start, rect_size, rect_size))
 corn_turtle.append(corn_start)
 
 # tree
 color_tree = (0,255,0)
+
+# ground
+x_ground = 0
+y_ground = (column_start*2-1)*rect_size
+color_ground = (125, 0, 0)
+ground = pygame.draw.rect(win, color_ground, (x_ground, y_ground, rect_size*columns*2, rect_size))
+pygame.display.update(ground)
 
 # close window by key
 #fps = 5
