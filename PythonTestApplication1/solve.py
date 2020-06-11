@@ -13,13 +13,14 @@ from pygame import event, QUIT
 #tree_turtle = []
 tdraw.update()
 
+min_side = (columns if columns <= rows else rows)
 k=0
-while (k < rows-1):
+while (k < min_side):
     print(k)
     k += 1
     # redraw window
     tdraw.update()
-    if (k < rows):
+    if (k < min_side):
         time.sleep(0.05) #0.05)
     tdraw.cornToTree()
     # update corn

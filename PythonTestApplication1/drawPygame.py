@@ -28,10 +28,10 @@ def cornToTree():
 # start data for draw window with pygame
 #scale = .4
 constant_size = 24 # = rows * scale
-scale = constant_size / columns
+scale = constant_size / rows #(columns if columns <= rows else rows) #columns
 rect_size = 21 * scale
-width = rect_size*rows*2
-height = rect_size*columns*2
+width = rect_size*columns*2
+height = rect_size*rows*2
 
 # set window position
 pygame.init()
@@ -54,7 +54,7 @@ color_tree = (0,255,0)
 
 # ground
 x_ground = 0
-y_ground = (column_start*2-1)*rect_size
+y_ground = (rows*2-1)*rect_size
 color_ground = (125, 0, 0)
 ground = pygame.draw.rect(win, color_ground, (x_ground, y_ground, rect_size*columns*2, rect_size))
 pygame.display.update(ground)

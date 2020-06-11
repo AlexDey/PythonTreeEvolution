@@ -30,8 +30,8 @@ def cornToTree():
 constant_size = 24 # = rows * scale
 scale = constant_size / rows
 rect_size = 21 * scale
-width = rect_size*rows*2
-height = rect_size*columns*2
+width = rect_size*columns*2
+height = rect_size*rows*2
 
 # screen
 wn = turtle.Screen()
