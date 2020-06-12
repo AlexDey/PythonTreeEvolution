@@ -1,6 +1,6 @@
 import turtle
 
-from settings import rows, columns
+from settings import rows, columns, row_start, column_start
 
 def addCorn(row, column):
     """Create turtle and add to massive"""
@@ -42,8 +42,8 @@ wn.tracer(0) # Turns off the screen updates
 
 # corn
 corn_turtle = []
-x_pos_start = columns*rect_size - width/2
-y_pos_start = rows*rect_size - height/2
+x_pos_start = column_start*rect_size - width/2
+y_pos_start = row_start*rect_size - height/2
 corn_start = turtle.Turtle()
 corn_start.speed(0)
 corn_start.shape("square")
