@@ -20,11 +20,47 @@ def pause_pygame():
                 if ev.key == K_p:
                     pause = False
 
+def grow_left():
+    if (cellCorn[2] == 0):
+        cellCorn[2] = (columns)
+    if ((activeDNA[0] < 16) & (world[cellCorn[1]][cellCorn[2]-1] == 0)):
+        newCorn.append([activeDNA[0], cellCorn[1], cellCorn[2]-1])
+        tree.append([activeDNA[0], cellCorn[1], cellCorn[2]-1])
+        world[cellCorn[1]][cellCorn[2]-1] = 2
+        tdraw.addCorn(cellCorn[1],cellCorn[2]-1)
+    if (cellCorn[2] == (columns)):
+        cellCorn[2] = 0
+
+def grow_right():
+    if (cellCorn[2] == (columns-1)):
+        cellCorn[2] = -1
+    if ((activeDNA[2] < 16) & (world[cellCorn[1]][cellCorn[2]+1] == 0)):
+        newCorn.append([activeDNA[2], cellCorn[1], cellCorn[2]+1])
+        tree.append([activeDNA[3], cellCorn[1], cellCorn[2]+1])
+        world[cellCorn[1]][cellCorn[2]+1] = 2
+        tdraw.addCorn(cellCorn[1],cellCorn[2]+1)
+    if (cellCorn[2] == -1):
+        cellCorn[2] = (columns-1)
+
+def grow_up():
+    if ((activeDNA[1] < 16) & (world[cellCorn[1]-1][cellCorn[2]] == 0)):
+        newCorn.append([activeDNA[1], cellCorn[1]-1, cellCorn[2]])
+        tree.append([activeDNA[1], cellCorn[1]-1, cellCorn[2]])
+        world[cellCorn[1]-1][cellCorn[2]] = 2
+        tdraw.addCorn(cellCorn[1]-1,cellCorn[2])
+
+def grow_down():
+    if ((activeDNA[3] < 16) & (world[cellCorn[1]+1][cellCorn[2]] == 0)):
+        newCorn.append([activeDNA[3], cellCorn[1]+1, cellCorn[2]])
+        tree.append([activeDNA[3], cellCorn[1]+1, cellCorn[2]])
+        world[cellCorn[1]+1][cellCorn[2]] = 2
+        tdraw.addCorn(cellCorn[1]+1,cellCorn[2])
+
 # tree
 #tree_turtle = []
 tdraw.update()
 
-min_side = 565# (columns if columns <= rows else rows)
+min_side = 365# (columns if columns <= rows else rows)
 k=0
 while (k < min_side):
     print(k)
@@ -35,7 +71,7 @@ while (k < min_side):
     tdraw.cornToTree()
 
     #pause
-    #if (k > 15):
+    #if (k > 180):
     #   pause_pygame()
 
     # timestep
@@ -50,47 +86,10 @@ while (k < min_side):
         if (world[cellCorn[1]][cellCorn[2]] == 2):
             activeDNA = dna_start[cellCorn[0]]
 
-            # left
-            if (cellCorn[2] == 0):
-                cellCorn[2] = (columns*2)
-            if ((activeDNA[0] < 16) & (world[cellCorn[1]][cellCorn[2]-1] == 0)):
-                newCorn.append([activeDNA[0], cellCorn[1], cellCorn[2]-1])
-                tree.append([activeDNA[0], cellCorn[1], cellCorn[2]-1])
-                world[cellCorn[1]][cellCorn[2]-1] = 2
-
-                tdraw.addCorn(cellCorn[1],cellCorn[2]-1)
-            
-            if (cellCorn[2] == (columns*2)):
-                cellCorn[2] = 0
-
-            # up
-            if ((activeDNA[1] < 16) & (world[cellCorn[1]-1][cellCorn[2]] == 0)):
-                newCorn.append([activeDNA[1], cellCorn[1]-1, cellCorn[2]])
-                tree.append([activeDNA[1], cellCorn[1]-1, cellCorn[2]])
-                world[cellCorn[1]-1][cellCorn[2]] = 2
-
-                tdraw.addCorn(cellCorn[1]-1,cellCorn[2])
-
-            # right
-            if (cellCorn[2] == (columns*2-1)):
-                cellCorn[2] = -1
-            if ((activeDNA[2] < 16) & (world[cellCorn[1]][cellCorn[2]+1] == 0)):
-                newCorn.append([activeDNA[2], cellCorn[1], cellCorn[2]+1])
-                tree.append([activeDNA[3], cellCorn[1], cellCorn[2]+1])
-                world[cellCorn[1]][cellCorn[2]+1] = 2
-
-                tdraw.addCorn(cellCorn[1],cellCorn[2]+1)
-            
-            if (cellCorn[2] == -1):
-                cellCorn[2] = (columns*2-1)
-
-            # down
-            if ((activeDNA[3] < 16) & (world[cellCorn[1]+1][cellCorn[2]] == 0)):
-                newCorn.append([activeDNA[3], cellCorn[1]+1, cellCorn[2]])
-                tree.append([activeDNA[3], cellCorn[1]+1, cellCorn[2]])
-                world[cellCorn[1]+1][cellCorn[2]] = 2
-
-                tdraw.addCorn(cellCorn[1]+1,cellCorn[2])
+            grow_left()
+            grow_up()
+            grow_right()
+            grow_down()
 
             world[cellCorn[1]][cellCorn[2]] = 1
 tdraw.update()
