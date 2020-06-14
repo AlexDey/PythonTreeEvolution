@@ -6,13 +6,17 @@
 import drawPygame as tdraw
 from settings import *
 
-import time
+from time import sleep
 from pygame import event, QUIT, KEYUP, K_p
 #import turtle
 
 def pause_pygame():
-    """pause pygame work, for unpause use 'p' """
-    pause = True
+    """pause pygame work, for pause/unpause use 'p' """
+    global pause
+    for ev in event.get():
+        if ev.type == KEYUP:
+            if ev.key == K_p:
+                pause = True
     while pause:
         for ev in event.get():
             if ev.type == KEYUP:
@@ -55,10 +59,10 @@ def grow_down():
         world[cellCorn[1]+1][cellCorn[2]] = 2
         tdraw.addCorn(cellCorn[1]+1,cellCorn[2])
 
+# def main():
 # tree
 #tree_turtle = []
 tdraw.update()
-
 min_side = 365# (columns if columns <= rows else rows)
 k=0
 while (k < min_side):
@@ -72,10 +76,11 @@ while (k < min_side):
     #pause
     #if (k > 180):
     #   pause_pygame()
+    pause_pygame()
 
     # timestep
-    #if (k < min_side):
-    #    time.sleep(0.05)
+    if (k < min_side):
+       sleep(0.005)
 
     # update corn
     if (k != 1):
@@ -95,7 +100,7 @@ tdraw.update()
 # cycle for keep window after solve
 flag = True
 while flag:
-    time.sleep(0.1)
+    sleep(0.25)
     try:
         for ev in event.get():
             if ev.type == QUIT:
@@ -104,3 +109,5 @@ while flag:
                 #flag = False
     except BaseException:
         flag = False
+
+# main()

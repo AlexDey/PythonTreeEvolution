@@ -1,7 +1,7 @@
 from random import randint, seed
 
 # start DNA
-seed(9) #9 #30 #34 #38 #70
+seed(70) #9 #30 #34 #38 #70
 dna_start = [[randint(0,30) for i in range(4)] for j in range(16)] 
 
 # example DNA from foo52
@@ -29,9 +29,16 @@ rows = 100 # определяет высоту
 columns = 256 # определяет ширина
 row_start = rows-2  # on ground
 column_start = columns//2 # center
+
 world = [[(0) for i in range(columns)] for j in range(rows)] # start world
 world[row_start][column_start] = 2 # start corn
 world[-1][:] = [3]*columns # ground
-corn = [[0, row_start, column_start]]
+
+corn = [[0, row_start, column_start]] # corn start position
 tree = corn.copy() # copy;  # tree = corn - just reference
-newCorn = []
+newCorn = [] # list for new iteration
+
+energy = 300
+
+# debug data
+pause = False
