@@ -2,9 +2,7 @@
 # сначала нужно инициализировать экран и первое зёрнышко по общим данным из settings,
 # затем добавить функции отрисовки вновь появившихся семок и обновившихся древоклеток
 import pygame
-import os
-#import ctypes
-#from ctypes import windll #.user32.GetSystemMetrics
+from os import environ
 
 from settings import rows, columns, row_start, column_start
 
@@ -50,7 +48,7 @@ if width > width_screen:
 # set window position
 startx = pygame.display.Info().current_w-width-5
 starty = 30
-os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (startx, starty)
+environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (startx, starty)
 # window
 win = pygame.display.set_mode((int(width), int(height)))
 

@@ -8,7 +8,7 @@ from settings import *
 
 from time import sleep
 from pygame import event, QUIT, KEYUP, K_p
-#import turtle
+
 
 def pause_pygame():
     """pause pygame work, for pause/unpause use 'p' """
@@ -25,25 +25,27 @@ def pause_pygame():
 
 def grow_left():
     if (cellCorn[2] == 0):
-        cellCorn[2] = (columns)
+        cellCorn[2] = columns
     if ((activeDNA[0] < 16) & (world[cellCorn[1]][cellCorn[2]-1] == 0)):
         newCorn.append([activeDNA[0], cellCorn[1], cellCorn[2]-1])
         tree.append([activeDNA[0], cellCorn[1], cellCorn[2]-1])
         world[cellCorn[1]][cellCorn[2]-1] = 2
         tdraw.addCorn(cellCorn[1],cellCorn[2]-1)
-    if (cellCorn[2] == (columns)):
+        expenses_energy("left")
+    if (cellCorn[2] == columns):
         cellCorn[2] = 0
 
 def grow_right():
-    if (cellCorn[2] == (columns-1)):
+    if (cellCorn[2] == columns-1):
         cellCorn[2] = -1
     if ((activeDNA[2] < 16) & (world[cellCorn[1]][cellCorn[2]+1] == 0)):
         newCorn.append([activeDNA[2], cellCorn[1], cellCorn[2]+1])
         tree.append([activeDNA[3], cellCorn[1], cellCorn[2]+1])
         world[cellCorn[1]][cellCorn[2]+1] = 2
         tdraw.addCorn(cellCorn[1],cellCorn[2]+1)
+        expenses_energy("right")
     if (cellCorn[2] == -1):
-        cellCorn[2] = (columns-1)
+        cellCorn[2] = columns-1
 
 def grow_up():
     if ((activeDNA[1] < 16) & (world[cellCorn[1]-1][cellCorn[2]] == 0)):
@@ -51,6 +53,7 @@ def grow_up():
         tree.append([activeDNA[1], cellCorn[1]-1, cellCorn[2]])
         world[cellCorn[1]-1][cellCorn[2]] = 2
         tdraw.addCorn(cellCorn[1]-1,cellCorn[2])
+        expenses_energy("up")
 
 def grow_down():
     if ((activeDNA[3] < 16) & (world[cellCorn[1]+1][cellCorn[2]] == 0)):
@@ -58,6 +61,15 @@ def grow_down():
         tree.append([activeDNA[3], cellCorn[1]+1, cellCorn[2]])
         world[cellCorn[1]+1][cellCorn[2]] = 2
         tdraw.addCorn(cellCorn[1]+1,cellCorn[2])
+        expenses_energy("down")
+
+def expenses_energy(msg):
+    global energy, energy_corn_grow
+    energy -= energy_corn_grow
+    print("-----------")
+    print(msg)
+    print("subtraction: ", -energy_corn_grow)
+    print("all energy:  ", energy)
 
 # def main():
 # tree
@@ -66,8 +78,13 @@ tdraw.update()
 min_side = 365# (columns if columns <= rows else rows)
 k=0
 while (k < min_side):
-    print(k)
     k += 1
+    print("===========")
+    print("iter: ",k)
+    energy -= energy_tree_live * (len(tree) - len(newCorn))
+    print("tree sells:  ", len(tree) - len(newCorn))
+    print("subtraction: ", -energy_tree_live * (len(tree) - len(newCorn)))
+    print("all energy:  ", energy)
 
     # redraw window
     tdraw.update()
@@ -80,11 +97,12 @@ while (k < min_side):
 
     # timestep
     if (k < min_side):
-       sleep(0.005)
+       sleep(1.005)
 
     # update corn
-    if (k != 1):
-        corn = newCorn
+    # if (k != 1):
+    #     corn = newCorn
+    corn = newCorn
     newCorn = []
     for cellCorn in corn:
         if (world[cellCorn[1]][cellCorn[2]] == 2):
