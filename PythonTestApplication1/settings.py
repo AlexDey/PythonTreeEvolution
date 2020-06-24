@@ -1,7 +1,7 @@
 from random import randint, seed
 
 # start DNA
-seed(30) #9 #30 #34 #38 #70
+seed(9) #9 #30 #34 #38 #70
 dna_start = [[randint(0,30) for i in range(4)] for j in range(16)] 
 
 # example DNA from foo52
@@ -38,7 +38,7 @@ world[-1][:] = [3]*columns # ground
 # tree = corn.copy() # copy;  # tree = corn - just reference
 # newCorn = [] # list for new iteration
 
-newCorn = [[0, row_start, column_start]] # corn start position
+newCorn = [[0, row_start, column_start]] # corn start genome and position
 tree = newCorn.copy() # copy;  # tree = corn - just reference
 corn = []
 
@@ -46,6 +46,10 @@ corn = []
 energy = 300 # Каждое новое дерево получает 300 единиц энергии подъёмных.
 energy_tree_live = 13 # Каждый ход дерево тратит на каждую клетку 13 единиц энергии.
 energy_corn_grow = 18 # Белые отростки собирают энергию для роста новых отростков и превращения себя в древесину. Для этого требуется 18 единиц энергии.
+energy_sun_levels = [i+4 for i in range(rows, 0, -1)] # Уровни энергии от солнца в зависимости от высоты
+# energy_sun_levels = [[(i+4)*j for j in range(1,4)]for i in range(rows, 0, -1)] # Уровни энергии от солнца в зависимости от высоты с множителем от 1 до 3
 
 # debug data
 pause = False
+
+# temp = [[0, 18, 10], [14, 18, 9], [8, 18, 11], [2, 17, 9], [10, 16, 9], [0, 17, 8], [2, 16, 8], [14, 17, 7], [8, 18, 8]]

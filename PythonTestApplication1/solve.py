@@ -1,6 +1,7 @@
-# дать дереву энергию, которая тратиться каждый ход на поддержание жизни клетки
-# Сделать энергию солнца которая разная в зависимости от высоты 
-# сделать чтоб клетки поглащало энергию
+# дать дереву энергию, которая тратиться каждый ход на поддержание жизни клетки ++
+# Сделать энергию солнца которая разная в зависимости от высоты ++
+# сделать чтоб клетки поглащало энергию ++
+# дерево поглащают энергию отдельно, зерно отдельно
 
 #import drawTurtle as tdraw
 import drawPygame as tdraw
@@ -31,7 +32,7 @@ def grow_left():
         tree.append([activeDNA[0], cellCorn[1], cellCorn[2]-1])
         world[cellCorn[1]][cellCorn[2]-1] = 2
         tdraw.addCorn(cellCorn[1],cellCorn[2]-1)
-        expenses_energy("left")
+        energy_corn_decrease("left")
     if (cellCorn[2] == columns):
         cellCorn[2] = 0
 
@@ -43,7 +44,7 @@ def grow_right():
         tree.append([activeDNA[3], cellCorn[1], cellCorn[2]+1])
         world[cellCorn[1]][cellCorn[2]+1] = 2
         tdraw.addCorn(cellCorn[1],cellCorn[2]+1)
-        expenses_energy("right")
+        energy_corn_decrease("right")
     if (cellCorn[2] == -1):
         cellCorn[2] = columns-1
 
@@ -53,7 +54,7 @@ def grow_up():
         tree.append([activeDNA[1], cellCorn[1]-1, cellCorn[2]])
         world[cellCorn[1]-1][cellCorn[2]] = 2
         tdraw.addCorn(cellCorn[1]-1,cellCorn[2])
-        expenses_energy("up")
+        energy_corn_decrease("up")
 
 def grow_down():
     if ((activeDNA[3] < 16) & (world[cellCorn[1]+1][cellCorn[2]] == 0)):
@@ -61,14 +62,43 @@ def grow_down():
         tree.append([activeDNA[3], cellCorn[1]+1, cellCorn[2]])
         world[cellCorn[1]+1][cellCorn[2]] = 2
         tdraw.addCorn(cellCorn[1]+1,cellCorn[2])
-        expenses_energy("down")
+        energy_corn_decrease("down")
 
-def expenses_energy(msg):
+def energy_corn_decrease(msg):
     global energy, energy_corn_grow
     energy -= energy_corn_grow
     print("-----------")
     print(msg)
     print("subtraction: ", -energy_corn_grow)
+    print("all energy:  ", energy)
+
+def energy_tree_decrease():
+    global energy, k
+    count_tree_cells = len(tree) - len(newCorn)
+    energy_decrese = -energy_tree_live * count_tree_cells
+    energy += energy_decrese
+    print("===========")
+    print("iter: ", k)
+    print("tree sells:  ", count_tree_cells)
+    print("decrease: ", energy_decrese)
+    print("all energy:  ", energy)
+
+def energy_increase():
+    global energy
+    tree_sort = sorted(sorted(tree, key=lambda tree: tree[1]), key=lambda tree: tree[2])
+    column_local = -1 #tree_sort[0][2]
+    multiplier = 3
+    energy_increase = 0
+    for tree_cell in tree_sort:
+        if (tree_cell[2]!=column_local):
+            column_local = tree_cell[2]
+            multiplier = 3
+            energy_increase += energy_sun_levels[tree_cell[1]] * multiplier
+        elif (tree_cell[2]==column_local and multiplier > 1):
+            multiplier -= 1
+            energy_increase += energy_sun_levels[tree_cell[1]] * multiplier
+    energy += energy_increase
+    print("increase: ", energy_increase)
     print("all energy:  ", energy)
 
 # def main():
@@ -79,13 +109,6 @@ min_side = 365# (columns if columns <= rows else rows)
 k=0
 while (k < min_side):
     k += 1
-    print("===========")
-    print("iter: ",k)
-    energy -= energy_tree_live * (len(tree) - len(newCorn))
-    print("tree sells:  ", len(tree) - len(newCorn))
-    print("subtraction: ", -energy_tree_live * (len(tree) - len(newCorn)))
-    print("all energy:  ", energy)
-
     # redraw window
     tdraw.update()
     tdraw.cornToTree()
@@ -95,21 +118,22 @@ while (k < min_side):
     #   pause_pygame()
     pause_pygame()
 
+    energy_tree_decrease()
+    energy_increase()
+
     # timestep
     if (k < min_side):
        sleep(1.005)
 
     # update corn
-    # if (k != 1):
-    #     corn = newCorn
     corn = newCorn
     newCorn = []
     for cellCorn in corn:
         if (world[cellCorn[1]][cellCorn[2]] == 2):
             activeDNA = dna_start[cellCorn[0]]
 
-            grow_left()
             grow_up()
+            grow_left()
             grow_right()
             grow_down()
 
